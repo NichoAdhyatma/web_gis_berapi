@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MapPageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
     ]);
 })->name('welcome');
+
+Route::get('/peta', [MapPageController::class, 'index'])->name('peta.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

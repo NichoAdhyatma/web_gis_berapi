@@ -1,16 +1,12 @@
 import { Head } from "@inertiajs/react";
 import HomeLayout from "@/Layouts/HomeLayout";
-import LeafletMap from "@/Components/map/LeafletMap";
-
+import Hero from "@/Components/Hero";
 export default function Welcome() {
     return (
         <HomeLayout>
             <Head title="Welcome" />
-            <div className="bg-secondary rounded-sm">
-                <h1 className="text-2xl font-bold text-center p-4">
-                    Sisitem Informasi Pemetaan Gunung Berapi di Jawa Timur
-                </h1>
-                <LeafletMap/>
+            <div className="hero min-h-screen">
+                <Hero />
             </div>
         </HomeLayout>
     );

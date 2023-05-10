@@ -1,46 +1,23 @@
-import { useState } from "react";
-import {
-    MapContainer,
-    TileLayer,
-    Marker,
-    Popup,
-    useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import LocationMarker from "./LocationMarker";
+import VerticalLayers from "./VerticalLayers";
+import { useSelector } from "react-redux";
 
-function LocationMarker() {
-    const [position, setPosition] = useState(null);
-    const map = useMapEvents({
-        click() {
-            map.locate();
-        },
-        locationfound(e) {
-            setPosition(e.latlng);
-            map.flyTo(e.latlng, map.getZoom());
-        },
-    });
+export default function LeafletMap() {
+    var position = useSelector((state) => state.position.position);
 
-    return position === null ? null : (
-        <Marker position={position}>
-            <Popup>You are here</Popup>
-        </Marker>
-    );
-}
-
-export default function LeafletMap(params) {
     return (
-        <MapContainer
-            center={{ lat: 51.505, lng: -0.09 }}
-            zoom={13}
-            scrollWheelZoom={false}
-        >
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <LocationMarker />
-        </MapContainer>
+        <div className="mt-24">
+            <MapContainer center={position} zoom={9} scrollWheelZoom={true}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                <VerticalLayers />
+                <LocationMarker />
+            </MapContainer>
+        </div>
     );
 }
-
-

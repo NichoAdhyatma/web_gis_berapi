@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('gunugs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('deskripsi');
+            $table->string('ketinggian');
+            $table->boolean('status');
+            $table->text('position');
             $table->timestamps();
         });
     }

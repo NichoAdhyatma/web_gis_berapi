@@ -12,7 +12,7 @@ export default function VerticalLayers() {
             <CircleMarker
                 center={position}
                 pathOptions={redOptions}
-                radius={10}
+                radius={20}
             >
                 <Popup>Popup in CircleMarker</Popup>
             </CircleMarker>

@@ -1,7 +1,11 @@
 import HomeLayout from "@/Layouts/HomeLayout";
 import DragDrop from "./Components/DragDrop";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { usePage } from "@inertiajs/react";
 
 export default function Index({ gunung }) {
+    const { flash } = usePage().props;
     return (
         <HomeLayout>
             <div className="mt-24 max-w-7xl mx-auto w-full">
@@ -41,12 +45,18 @@ export default function Index({ gunung }) {
                                     </td>
                                     <td>
                                         <label
-                                            htmlFor="my-modal-4"
+                                            htmlFor={`my-modal-${item.id}`}
                                             className="btn btn-sm btn-warning"
                                         >
                                             Upload Gambar
                                         </label>
                                     </td>
+                                    <input
+                                        type="checkbox"
+                                        id={`my-modal-${item.id}`}
+                                        className="modal-toggle"
+                                    />
+                                    <DragDrop id={item.id} />
                                 </tr>
                             ))}
                         </tbody>
@@ -54,16 +64,13 @@ export default function Index({ gunung }) {
                 </div>
             </div>
 
-            {/* Put this part before </body> tag */}
-            <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-            <label htmlFor="my-modal-4" className="modal cursor-pointer">
-                <label className="modal-box relative" htmlFor="">
-                    <h3 className="text-lg font-bold">Upload Gambar Gunung</h3>
-                    <div className="p-4">
-                        <DragDrop />
-                    </div>
-                </label>
-            </label>
+            {flash.message &&
+                toast.success(flash.message, {
+                    autoClose: 3000,
+                    pauseOnHover: false,
+                })}
+
+            <ToastContainer />
         </HomeLayout>
     );
 }

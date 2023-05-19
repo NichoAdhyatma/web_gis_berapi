@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('gunungs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('photo')->default("/default.png");
             $table->string('lokasi');
             $table->text('deskripsi');
             $table->string('ketinggian');

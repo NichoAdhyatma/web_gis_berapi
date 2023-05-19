@@ -21,5 +21,14 @@ class GunungSeeeder extends Seeder
             'ketinggian' => '2329',
             'status' => true,
         ]);
+
+        Gunung::create([
+            'name' => "Gunung Anjasmoro",
+            'lokasi' => "Kabupaten Mojokerto, Jawa Timur, Indonesia.",
+            'deskripsi' => 'Gunung Anjasmoro merupakan pegunungan yang terdapat di pulau Jawa, Indonesia. Ada lebih dari 40 puncak dan puncak tertinggi pada 2.282 meter. Gunung Anjasmoro termasuk ke dalam wilayah Kabupaten Jombang, Kabupaten Kediri (kec. Kandangan) , Kabupaten Mojokerto, Kabupaten Malang, dan Kota Batu, Jawa Timur. ',
+            'position' => '{ "lat": -7.6303, "lng": 112.6951 }',
+            'ketinggian' => '2282',
+            'status' => false,
+        ]);
     }
 }

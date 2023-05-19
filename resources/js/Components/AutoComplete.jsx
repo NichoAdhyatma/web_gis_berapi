@@ -10,9 +10,7 @@ export default function Search({ map, gunung }) {
     const [pos, setPos] = React.useState();
 
     const handleInputChange = (event, value) => {
-        const selectedGunung = gunung.find(
-            (option) => option.name === value
-        );
+        const selectedGunung = gunung.find((option) => option.name === value);
         if (selectedGunung) {
             map.setView(JSON.parse(selectedGunung.position), 11);
             setPos(JSON.parse(selectedGunung.position));
@@ -23,15 +21,14 @@ export default function Search({ map, gunung }) {
     };
 
     return (
-        <div className="my-2">
-            <Autocomplete
-                id="free-solo-demo"
-                options={gunung.map((option) => option.name)}
-                onInputChange={handleInputChange}
-                renderInput={(params) => (
-                    <TextField {...params} label="Cari Gunung" />
-                )}
-            />
-        </div>
+        <Autocomplete
+            id="free-solo-demo"
+            className="min-w-[24rem] m-4"
+            options={gunung.map((option) => option.name)}
+            onInputChange={handleInputChange}
+            renderInput={(params) => (
+                <TextField {...params} label="Cari Gunung" />
+            )}
+        />
     );
 }

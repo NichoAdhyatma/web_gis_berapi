@@ -5,7 +5,7 @@ export default function Welcome({ canLogin, canRegister }) {
     return (
         <HomeLayout>
             <Head title="Welcome" />
-            <div className="hero min-h-screen">
+            <div className="hero min-h-screen max-w-7xl mx-auto mt-8 p-4">
                 <Hero />
             </div>
         </HomeLayout>

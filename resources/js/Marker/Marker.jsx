@@ -19,9 +19,9 @@ const volcano = new L.Icon({
 });
 
 const marker = new L.Icon({
-    iconUrl: 'https://img.icons8.com/?size=160&id=jJzviSBhm8Am&format=png',
-    iconRetinaUrl: 'https://img.icons8.com/?size=160&id=jJzviSBhm8Am&format=png',
-    iconSize: new L.Point(50, 50),
+    iconUrl: '/location.gif',
+    iconRetinaUrl: '/location.gif',
+    iconSize: new L.Point(60, 60),
 });
 
 export { mountain, home, volcano, marker };

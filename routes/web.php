@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\MapPageController;
+use App\Http\Controllers\PetaController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Gunung;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,7 +24,15 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::get('/peta', [MapPageController::class, 'index'])->name('peta.index');
+Route::get('/peta-berapi', function () {
+    $gunung = Gunung::all();
+
+    return Inertia::render('Peta/Main', [
+        'gunung' => $gunung
+    ]);
+})->name('peta');
+
+Route::resource('/peta', PetaController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -35,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

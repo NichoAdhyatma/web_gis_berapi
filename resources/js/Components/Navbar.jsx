@@ -17,8 +17,12 @@ export default function Navbar() {
                     Beranda
                 </Link>
 
-                <Link href={route("peta.index")} className="px-4">
+                <Link href={route("peta")} className="px-4">
                     Peta
+                </Link>
+
+                <Link href={route("peta.index")} className="px-4">
+                    Data
                 </Link>
             </div>
         </div>

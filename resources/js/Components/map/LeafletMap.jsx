@@ -27,7 +27,7 @@ export default function LeafletMap({ gunung }) {
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}"
+                    url="http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}"
                     subdomains={["mt1", "mt2", "mt3"]}
                 />
                 <GeoJSON
@@ -38,9 +38,36 @@ export default function LeafletMap({ gunung }) {
 
                 <LocationMarker />
                 {gunung.map((item, index) => (
-                    <Marker key={index} position={JSON.parse(item.position)} icon={item.status ? volcano : mountain}>
+                    <Marker
+                        key={index}
+                        position={JSON.parse(item.position)}
+                        icon={item.status ? volcano : mountain}
+                    >
                         <Popup>
-                            <h2 className="card-title">{item.name}</h2>
+                            <div class="card bg-base-100 shadow-xl">
+                                <div class="card-body">
+                                    <h2 class="card-title">{item.name}</h2>
+                                    {item.status ? (
+                                        <div className="badge badge-success bg-yellow-200 p-4">
+                                            <p className="font-bold text-yellow-700">
+                                                Aktif
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="badge badge-success bg-green-200 p-4">
+                                            <p className="font-bold text-green-700">
+                                                Tidak Aktif
+                                            </p>
+                                        </div>
+                                    )}
+                                    <p className="truncate">{item.deskripsi}</p>
+                                    <div className="card-actions justify-end">
+                                        <a className="link link-primary">
+                                            Lebih lanjut
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </Popup>
                     </Marker>
                 ))}
@@ -51,9 +78,12 @@ export default function LeafletMap({ gunung }) {
     );
 
     return (
-        <div className="mt-24">
-            <Search map={map} gunung={gunung} />
-            {map ? <DisplayPosition map={map} /> : null}
+        <div className="mt-20 flex flex-col">
+            <div className="flex justify-between">
+                <Search map={map} gunung={gunung} />
+                {map ? <DisplayPosition map={map} /> : null}
+            </div>
+
             {displayMap}
         </div>
     );

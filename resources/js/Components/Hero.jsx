@@ -29,6 +29,24 @@ export default function Hero(params) {
                 </div>
             </div>
 
+            <div className="stats shadow">
+                <div className="stat place-items-center">
+                    <div className="stat-title text-gray-700">Gunung Berapi Aktif</div>
+                    <div className="stat-value text-primary">7</div>
+                    <div className="stat-desc">Data terkini</div>
+                </div>
+
+                <div className="stat place-items-center">
+                    <div className="stat-title text-gray-700">Gunung Berapi Tidak Aktif</div>
+                    <div className="stat-value text-secondary">23</div>
+                </div>
+
+                <div className="stat place-items-center">
+                    <div className="stat-title text-gray-700">Total Gunung di Jawa Timur</div>
+                    <div className="stat-value">30</div>
+                </div>
+            </div>
+
             <div
                 className="hero rounded-md"
                 style={{
@@ -38,7 +56,10 @@ export default function Hero(params) {
                 <div className="hero-overlay bg-opacity-60 rounded-md"></div>
                 <div className="hero-content text-center text-neutral-content">
                     <div className="max-w-md">
-                        <h1 className="mb-5 text-3xl font-bold">Gunung Berapi Jawa Timur: Informasi Terkini dan Keselamatan</h1>
+                        <h1 className="mb-5 text-3xl font-bold">
+                            Gunung Berapi Jawa Timur: Informasi Terkini dan
+                            Keselamatan
+                        </h1>
                         <p className="mb-5">
                             Provident cupiditate voluptatem et in. Quaerat
                             fugiat ut assumenda excepturi exercitationem quasi.

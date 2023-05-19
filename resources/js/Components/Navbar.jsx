@@ -5,7 +5,7 @@ export default function Navbar() {
     return (
         <div
             className={
-                "w-full fixed top-0 transition ease-in backdrop-blur-md z-10 bg-transparent shadow p-2"
+                "w-full fixed top-0 transition ease-in backdrop-blur-md z-50 bg-transparent shadow p-2"
             }
         >
             <div className="max-w-7xl flex items-center mx-auto gap-4">

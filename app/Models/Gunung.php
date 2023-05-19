@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gunug extends Model
+class Gunung extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
 }

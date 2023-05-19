@@ -1,7 +1,7 @@
 import { Head } from "@inertiajs/react";
 import HomeLayout from "@/Layouts/HomeLayout";
 import Hero from "@/Components/Hero";
-export default function Welcome() {
+export default function Welcome({ canLogin, canRegister }) {
     return (
         <HomeLayout>
             <Head title="Welcome" />

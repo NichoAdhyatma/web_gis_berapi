@@ -27,8 +27,17 @@ class PetaController extends Controller
             'ketinggian' => 'required',
             'position' => 'required',
             'deskripsi' => 'required',
-            'status' => 'required|bool'
+            'status' => 'required|bool',
+            'photo' => 'nullable',
         ]);
+
+        if ($request->file('photo')) {
+            $path = $request->file('photo')->storeAs('/assets/images', $request->name . $request->file('photo')->getClientOriginalName(), 'public');
+
+            $validatedData['photo'] = $path;
+        } else {
+            $validatedData['photo'] = "default.png";
+        }
 
         Gunung::create($validatedData);
 
@@ -51,20 +60,29 @@ class PetaController extends Controller
     {
         $gunung = Gunung::find($id);
         $validatedData = $request->validate([
-            "photo" => "required",
+            'name' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'ketinggian' => 'required',
+            'position' => 'required',
+            'deskripsi' => 'required',
+            'status' => 'required|bool',
+            'photo' => 'nullable'
         ]);
 
         if ($request->file('photo')) {
-            $path = $request->file('photo')->storeAs('/assets/images', $gunung->id.$request->file('photo')->getClientOriginalName(), 'public');
-            if (!is_null($gunung->photo) && $gunung->photo != 'default.png') {
+            $path = $request->file('photo')->storeAs('/assets/images', $id . $request->file('photo')->getClientOriginalName(), 'public');
+            if (!is_null($gunung->photo) && $gunung->photo != 'default.png' && $path != $gunung->photo) {
                 Storage::disk('public')->delete($gunung->photo);
             }
+
             $validatedData['photo'] = $path;
+        } else {
+            $validatedData['photo'] = $gunung->photo;
         }
 
         $gunung->update($validatedData);
 
-        return redirect()->route('peta.index')->with('message', 'Gambar Berhasil Ditambahkan');
+        return redirect()->route('peta.index')->with('message', 'Data Berhasil Diubah');
     }
 
 

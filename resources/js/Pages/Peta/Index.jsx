@@ -4,9 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { router, usePage } from "@inertiajs/react";
 import AddIcon from "@mui/icons-material/Add";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import EditIcon from "@mui/icons-material/Edit";
 import InputModal from "./Components/InputModal";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect } from "react";
+import { Tooltip } from "@mui/material";
 
 export default function Index({ gunung, wilayah }) {
     const { flash } = usePage().props;
@@ -15,17 +17,28 @@ export default function Index({ gunung, wilayah }) {
         router.delete(route("peta.destroy", id));
     };
 
+    useEffect(() => {
+        flash.message &&
+            toast.success(flash.message, {
+                position: "top-right",
+                autoClose: 2000,
+                pauseOnHover: false,
+            });
+    }, [flash]);
+
     return (
         <HomeLayout>
             <div className="mt-24 max-w-[90rem] mx-auto w-full p-4">
                 <div className="flex justify-between items-center">
                     <h2 className="my-2 font-bold">Data Gunung Jawa Timur</h2>
-                    <label
-                        htmlFor="my-modal-input"
-                        className="btn btn-sm bg-blue-500 hover:bg-blue-500 border-none text-white flex items-center gap-2"
-                    >
-                        <AddIcon /> Tambah Data
-                    </label>
+                    <Tooltip title={"Tambah Data"}>
+                        <label
+                            htmlFor="my-modal-input"
+                            className="btn btn-sm btn-primary text-white"
+                        >
+                            <AddIcon />
+                        </label>
+                    </Tooltip>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -71,25 +84,33 @@ export default function Index({ gunung, wilayah }) {
                                     </td>
                                     <td>
                                         <div>
-                                            <label
-                                                htmlFor={`my-modal-${item.id}`}
-                                                className="btn btn-sm btn-warning mr-2"
-                                            >
-                                                <FileUploadIcon />
-                                            </label>
-                                            <button
-                                                onClick={() =>
-                                                    confirm("Mau di hapus")
-                                                        ? submit(item.id)
-                                                        : null
-                                                }
-                                                className="btn btn-sm btn-error"
-                                            >
-                                                <DeleteIcon />
-                                            </button>
+                                            <Tooltip title={"Edit Data"}>
+                                                <label
+                                                    htmlFor={`my-modal-${item.id}`}
+                                                    className="btn btn-sm btn-warning mr-2"
+                                                >
+                                                    <EditIcon />
+                                                </label>
+                                            </Tooltip>
+                                            <Tooltip title={"Hapus Data"}>
+                                                <button
+                                                    onClick={() =>
+                                                        confirm("Mau di hapus")
+                                                            ? submit(item.id)
+                                                            : null
+                                                    }
+                                                    className="btn btn-sm btn-error"
+                                                >
+                                                    <DeleteIcon />
+                                                </button>
+                                            </Tooltip>
                                         </div>
                                     </td>
-                                    <DragDrop id={item.id} />
+                                    <DragDrop
+                                        wilayah={wilayah}
+                                        item={item}
+                                        id={item.id}
+                                    />
                                 </tr>
                             ))}
                         </tbody>
@@ -97,11 +118,6 @@ export default function Index({ gunung, wilayah }) {
                 </div>
             </div>
 
-            {flash.message &&
-                toast.success(flash.message, {
-                    autoClose: 2000,
-                    pauseOnHover: false,
-                })}
             <InputModal wilayah={wilayah} />
             <ToastContainer />
         </HomeLayout>

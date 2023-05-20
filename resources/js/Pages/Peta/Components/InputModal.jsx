@@ -1,8 +1,13 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { useRef } from "react";
+import Collapse from "@mui/material/Collapse";
+import { useRef, useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import ClipLoader from "react-spinners/ClipLoader";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+const fileTypes = ["JPG", "PNG", "GIF"];
 
 export default function InputModal({ wilayah }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -10,9 +15,14 @@ export default function InputModal({ wilayah }) {
         lokasi: "",
         position: "",
         status: null,
-        ketinggian: null,
+        ketinggian: "",
         deskripsi: "",
+        photo: null,
     });
+
+    const [file, setFile] = useState(null);
+
+    const [loading, setLoading] = useState(false);
 
     const modalRef = useRef(null);
 
@@ -21,11 +31,33 @@ export default function InputModal({ wilayah }) {
 
         post(route("peta.store"), {
             onSuccess: () => {
+                handleDeleteFile();
+                modalRef.current.checked = false;
                 reset();
             },
         });
-        modalRef.current.checked = false;
     };
+
+    const handleChange = (file) => {
+        setLoading(true);
+        setTimeout(() => {
+            setFile(file);
+            setData("photo", file);
+            setLoading(false);
+        }, 500);
+    };
+
+    function formatFileSize(fileSizeBytes, decimalPlaces) {
+        var mb = fileSizeBytes / (1024 * 1024);
+        var formattedSize = mb.toFixed(decimalPlaces) + " MB";
+        return formattedSize;
+    }
+
+    const handleDeleteFile = () => {
+        setFile(null);
+        setData("photo", null);
+    };
+
     return (
         <>
             <input
@@ -39,7 +71,7 @@ export default function InputModal({ wilayah }) {
                     <h3 className="text-lg font-bold">Form Tambah Data</h3>
                     <form
                         onSubmit={submit}
-                        className="my-4 flex flex-col gap-4 w-full"
+                        className="my-4 flex flex-col gap-2 w-full"
                     >
                         <div>
                             <InputLabel htmlFor="name" value="Nama Gunung" />
@@ -143,7 +175,7 @@ export default function InputModal({ wilayah }) {
                             </select>
 
                             <InputError
-                                message={errors.lokasi}
+                                message={errors.status}
                                 className="mt-2"
                             />
                         </div>
@@ -193,6 +225,58 @@ export default function InputModal({ wilayah }) {
                                 className="mt-2"
                             />
                         </div>
+
+                        <InputLabel value="Gambar" />
+
+                        <FileUploader
+                            handleChange={handleChange}
+                            name="file"
+                            types={fileTypes}
+                            label="Upload atau arahkan gambar mu disini"
+                            multiple={false}
+                        />
+
+                        <ClipLoader
+                            color="#1D267D"
+                            loading={loading}
+                            size={30}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+
+                        <Collapse in={file != null}>
+                            {file != null && (
+                                <div className="mt-2 shadow p-4 flex items-center gap-4 rounded-md">
+                                    <img
+                                        className="w-12 rounded-sm"
+                                        src={URL.createObjectURL(file)}
+                                    />
+                                    <div className="flex justify-between w-full">
+                                        <div>
+                                            <h1 className="text-lg font-bold">
+                                                {file.name}
+                                            </h1>
+                                            <p className="text-sm font-thin">
+                                                {file.type}
+                                            </p>
+                                        </div>
+                                        <p className="text-blue-500 font-semibold">
+                                            {formatFileSize(file.size, 2)}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex flex-col items-end w-full">
+                                <button
+                                    type="button"
+                                    onClick={handleDeleteFile}
+                                    className="btn btn-sm bg-red-600 text-white border-none hover:bg-red-500 mt-2"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        </Collapse>
 
                         <button
                             type="submit"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gunung;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -13,19 +14,25 @@ class PetaController extends Controller
     public function index()
     {
         return Inertia::render('Peta/Index', [
-            'gunung' => Gunung::all()
+            'gunung' => Gunung::all(),
+            'wilayah' => DB::table('wilayah-jatim')->get(),
         ]);
     }
 
-
-    public function create()
-    {
-    }
-
-
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'ketinggian' => 'required',
+            'position' => 'required',
+            'deskripsi' => 'required',
+            'status' => 'required|bool'
+        ]);
+
+        Gunung::create($validatedData);
+
+        return redirect()->route("peta.index")->with("message", "Data Berhasil Ditambahkan !");
     }
 
 
@@ -48,8 +55,8 @@ class PetaController extends Controller
         ]);
 
         if ($request->file('photo')) {
-            $path = $request->file('photo')->storeAs('/assets/images', $request->file('photo')->getClientOriginalName(), 'public');
-            if (!is_null($gunung->photo)) {
+            $path = $request->file('photo')->storeAs('/assets/images', $gunung->id.$request->file('photo')->getClientOriginalName(), 'public');
+            if (!is_null($gunung->photo) && $gunung->photo != 'default.png') {
                 Storage::disk('public')->delete($gunung->photo);
             }
             $validatedData['photo'] = $path;
@@ -57,12 +64,14 @@ class PetaController extends Controller
 
         $gunung->update($validatedData);
 
-        return redirect()->route('peta.index')->with('message', 'Gambar berhasil ditambahkan');
+        return redirect()->route('peta.index')->with('message', 'Gambar Berhasil Ditambahkan');
     }
 
 
     public function destroy(string $id)
     {
-        //
+        Gunung::destroy($id);
+
+        return redirect()->route('peta.index')->with('message', 'Data Berhasil Dihapus');
     }
 }

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Collapse } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
@@ -11,14 +10,11 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 function DragDrop({ id }) {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { data, setData, processing, errors, reset } = useForm({
-        file: null,
-    });
+
     const handleChange = (file) => {
         setLoading(true);
         setTimeout(() => {
             setFile(file);
-            setData(file);
             setLoading(false);
         }, 500);
     };
@@ -38,7 +34,7 @@ function DragDrop({ id }) {
 
         router.post(route("peta.update", id), {
             _method: "patch",
-            photo: data,
+            photo: file,
         });
 
         handleDeleteFile();
@@ -46,11 +42,17 @@ function DragDrop({ id }) {
     };
 
     return (
-        <label htmlFor={`my-modal-${id}`} className="modal cursor-pointer">
-            <label className="modal-box relative" htmlFor="">
-                <h3 className="text-lg font-bold">Upload Gambar Gunung</h3>
-                <div className="p-4">
-                    <form onSubmit={submit}>
+        <>
+            <input
+                type="checkbox"
+                id={`my-modal-${id}`}
+                className="modal-toggle"
+            />
+
+            <label htmlFor={`my-modal-${id}`} className="modal cursor-pointer">
+                <label className="modal-box relative" htmlFor="">
+                    <h3 className="text-lg font-bold">Upload Gambar Gunung</h3>
+                    <div className="p-4">
                         <FileUploader
                             handleChange={handleChange}
                             name="file"
@@ -94,6 +96,7 @@ function DragDrop({ id }) {
 
                             <div className="flex flex-col items-end w-full">
                                 <button
+                                    type="button"
                                     onClick={handleDeleteFile}
                                     className="btn btn-sm bg-red-600 text-white border-none hover:bg-red-500 my-2"
                                 >
@@ -102,16 +105,16 @@ function DragDrop({ id }) {
                                 <button
                                     type="submit"
                                     className="btn btn-sm btn-primary my-4"
-                                    disabled={processing}
+                                    onClick={submit}
                                 >
                                     Upload
                                 </button>
                             </div>
                         </Collapse>
-                    </form>
-                </div>
+                    </div>
+                </label>
             </label>
-        </label>
+        </>
     );
 }
 

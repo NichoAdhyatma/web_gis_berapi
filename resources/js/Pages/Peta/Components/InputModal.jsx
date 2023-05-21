@@ -280,7 +280,7 @@ export default function InputModal({ wilayah }) {
 
                         <button
                             type="submit"
-                            className="btn btn-sm btn-primary"
+                            className="btn btn-sm btn-primary mt-2"
                             disabled={processing}
                         >
                             Tambah

@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 export default function Hero(params) {
     return (
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="flex flex-col gap-4">
             <div className="hero-content flex-col lg:flex-row">
                 <img
                     src="https://images.unsplash.com/photo-1571738318198-fda6afce5348?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80"

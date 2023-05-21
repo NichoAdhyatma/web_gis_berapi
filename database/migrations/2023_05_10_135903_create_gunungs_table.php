@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('photo')->default("default.png");
-            $table->string('lokasi');
+            $table->string('lokasi')->default('Jawa Timur');
             $table->text('deskripsi');
             $table->string('ketinggian');
             $table->boolean('status');

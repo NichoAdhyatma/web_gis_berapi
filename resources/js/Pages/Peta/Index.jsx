@@ -2,7 +2,7 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import DragDrop from "./Components/DragDrop";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import InputModal from "./Components/InputModal";
@@ -26,9 +26,11 @@ export default function Index({ gunung, wilayah }) {
             });
     }, [flash]);
 
+    console.log(gunung);
+
     return (
         <HomeLayout>
-            <div className="mt-24 max-w-[90rem] mx-auto w-full p-4">
+            <div className="mt-24 max-w-7xl mx-auto w-full px-4 py-2">
                 <div className="flex justify-between items-center">
                     <h2 className="my-2 font-bold">Data Gunung Jawa Timur</h2>
                     <Tooltip title={"Tambah Data"}>
@@ -55,17 +57,19 @@ export default function Index({ gunung, wilayah }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {gunung.map((item, index) => (
+                            {gunung.data.map((item, index) => (
                                 <tr key={index}>
                                     <th>{index + 1}</th>
                                     <td>
-                                        <a target="_blank" href={`/storage/${item.photo}`}>
-
-                                        <img
-                                            src={`/storage/${item.photo}`}
-                                            alt={item.photo}
-                                            className="w-12"
-                                        />
+                                        <a
+                                            target="_blank"
+                                            href={`/storage/${item.photo}`}
+                                        >
+                                            <img
+                                                src={`/storage/${item.photo}`}
+                                                alt={item.photo}
+                                                className="w-12"
+                                            />
                                         </a>
                                     </td>
                                     <td>{item.name}</td>
@@ -118,6 +122,23 @@ export default function Index({ gunung, wilayah }) {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="btn-group flex gap-2 mt-2">
+                    {gunung.links.map((link, index) => (
+                        <Link key={index} href={link.url}>
+                            <button
+                                className={`btn btn-sm bg-base-200 text-base-content hover:bg-base-100 border-none ${
+                                    link.active ? `bg-primary !text-white hover:bg-primary` : null
+                                }`}
+                            >
+                                {index == 0
+                                    ? "<"
+                                    : index == gunung.last_page + 1
+                                    ? ">"
+                                    : link.label}
+                            </button>
+                        </Link>
+                    ))}
                 </div>
             </div>
 

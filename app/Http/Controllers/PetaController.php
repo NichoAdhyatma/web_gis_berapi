@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gunung;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -17,6 +18,11 @@ class PetaController extends Controller
             'gunung' => Gunung::all(),
             'wilayah' => DB::table('wilayah-jatim')->get(),
         ]);
+    }
+
+    public function seeder() {
+        Artisan::call('db:seed');
+        return redirect()->route('peta.index')->with('message', "Database Seeder Called !");
     }
 
     public function store(Request $request)

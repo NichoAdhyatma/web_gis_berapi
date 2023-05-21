@@ -24,6 +24,8 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
+Route::get("/seed", [PetaController::class, 'seeder'])->name('seeder');
+
 Route::get('/peta-berapi', function () {
     $gunung = Gunung::all();
 

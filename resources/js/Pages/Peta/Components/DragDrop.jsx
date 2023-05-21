@@ -12,7 +12,8 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 function DragDrop({ wilayah, item, id }) {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { data, setData, patch, processing, errors } = useForm({
+    const [processing, setProcessing] = useState(false);
+    const { data, setData, errors } = useForm({
         name: item.name,
         lokasi: item.lokasi,
         position: item.position,
@@ -44,20 +45,28 @@ function DragDrop({ wilayah, item, id }) {
 
     const submit = (e) => {
         e.preventDefault();
+        setProcessing(true)
 
-        router.post(route("peta.update", id), {
-            _method: "patch",
-            name: data.name,
-            lokasi: data.lokasi,
-            position: data.position,
-            ketinggian: data.ketinggian,
-            status: data.status,
-            deskripsi: data.deskripsi,
-            photo: data.photo,
-        });
-
-        handleDeleteFile();
-        document.getElementById(`my-modal-${id}`).checked = false;
+        router.post(
+            route("peta.update", id),
+            {
+                _method: "patch",
+                name: data.name,
+                lokasi: data.lokasi,
+                position: data.position,
+                ketinggian: data.ketinggian,
+                status: data.status,
+                deskripsi: data.deskripsi,
+                photo: data.photo,
+            },
+            {
+                onSuccess: () => {
+                    handleDeleteFile();
+                    setProcessing(false);
+                    document.getElementById(`my-modal-${id}`).checked = false;
+                },
+            }
+        );
     };
 
     return (
@@ -292,6 +301,7 @@ function DragDrop({ wilayah, item, id }) {
                         <button
                             type="submit"
                             className="btn btn-sm btn-primary mt-2"
+                            disabled={processing}
                         >
                             Edit
                         </button>

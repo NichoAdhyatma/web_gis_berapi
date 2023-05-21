@@ -59,11 +59,14 @@ export default function Index({ gunung, wilayah }) {
                                 <tr key={index}>
                                     <th>{index + 1}</th>
                                     <td>
+                                        <a target="_blank" href={`/storage/${item.photo}`}>
+
                                         <img
                                             src={`/storage/${item.photo}`}
                                             alt={item.photo}
                                             className="w-12"
                                         />
+                                        </a>
                                     </td>
                                     <td>{item.name}</td>
                                     <td>{item.lokasi}</td>

@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { router, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
@@ -45,7 +46,7 @@ function DragDrop({ wilayah, item, id }) {
 
     const submit = (e) => {
         e.preventDefault();
-        setProcessing(true)
+        setProcessing(true);
 
         router.post(
             route("peta.update", id),
@@ -246,7 +247,12 @@ function DragDrop({ wilayah, item, id }) {
                             />
                         </div>
 
-                        <InputLabel value="Gambar" />
+                        <div className="flex gap-2 items-center">
+                            <InputLabel value="Gambar" />
+                            <a target="_blank" href={`/storage/${item.photo}`}>
+                                <LaunchIcon fontSize="12" />
+                            </a>
+                        </div>
 
                         <FileUploader
                             handleChange={handleChange}

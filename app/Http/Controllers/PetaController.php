@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gunung;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +48,7 @@ class PetaController extends Controller
 
         Gunung::create($validatedData);
 
-        return redirect()->route("peta.index")->with("message", "Data Berhasil Ditambahkan !");
+        return session()->flash("message", "Data Berhasil Ditambahkan !");
     }
 
 
@@ -86,9 +87,11 @@ class PetaController extends Controller
             $validatedData['photo'] = $gunung->photo;
         }
 
+
+
         $gunung->update($validatedData);
 
-        return redirect()->route('peta.index')->with('message', 'Data Berhasil Diubah');
+        return session()->flash('message', 'Data Berhasil Diubah');
     }
 
 
@@ -96,6 +99,6 @@ class PetaController extends Controller
     {
         Gunung::destroy($id);
 
-        return redirect()->route('peta.index')->with('message', 'Data Berhasil Dihapus');
+        return session()->flash('message', 'Data Berhasil Dihapus');
     }
 }

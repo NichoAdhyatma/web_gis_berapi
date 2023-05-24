@@ -36,6 +36,7 @@ class PetaController extends Controller
             'deskripsi' => 'required',
             'status' => 'required|bool',
             'photo' => 'nullable',
+            'krb' => 'nullable',
         ]);
 
         if ($request->file('photo')) {
@@ -44,6 +45,14 @@ class PetaController extends Controller
             $validatedData['photo'] = $path;
         } else {
             $validatedData['photo'] = "default.png";
+        }
+
+        if ($request->file('krb')) {
+            $path = $request->file('krb')->storeAs('/assets/images', $request->name . $request->file('krb')->getClientOriginalName(), 'public');
+
+            $validatedData['krb'] = $path;
+        } else {
+            $validatedData['krb'] = "default.png";
         }
 
         Gunung::create($validatedData);
@@ -68,7 +77,8 @@ class PetaController extends Controller
             'position' => 'required',
             'deskripsi' => 'required',
             'status' => 'required|bool',
-            'photo' => 'nullable'
+            'photo' => 'nullable',
+            'krb' => 'nullable',
         ]);
 
         if ($request->file('photo')) {
@@ -80,6 +90,17 @@ class PetaController extends Controller
             $validatedData['photo'] = $path;
         } else {
             $validatedData['photo'] = $gunung->photo;
+        }
+
+        if ($request->file('krb')) {
+            $path = $request->file('krb')->storeAs('/assets/images', $id . $request->file('krb')->getClientOriginalName(), 'public');
+            if (!is_null($gunung->krb) && $gunung->krb != 'default.png' && $path != $gunung->krb) {
+                Storage::disk('public')->delete($gunung->krb);
+            }
+
+            $validatedData['krb'] = $path;
+        } else {
+            $validatedData['krb'] = $gunung->krb;
         }
 
 

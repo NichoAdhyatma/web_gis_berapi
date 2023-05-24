@@ -12,6 +12,7 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 
 function DragDrop({ wilayah, item, id }) {
     const [file, setFile] = useState(null);
+    const [krb, setKrb] = useState(null);
     const [loading, setLoading] = useState(false);
     const [processing, setProcessing] = useState(false);
     const { data, setData, errors } = useForm({
@@ -22,6 +23,7 @@ function DragDrop({ wilayah, item, id }) {
         status: item.status,
         deskripsi: item.deskripsi,
         photo: null,
+        krb: null,
     });
 
     const handleChange = (file) => {
@@ -33,15 +35,34 @@ function DragDrop({ wilayah, item, id }) {
         }, 500);
     };
 
+    const handleChangeKrb = (file) => {
+        setLoading(true);
+        setTimeout(() => {
+            setKrb(file);
+            setData("krb", file);
+            setLoading(false);
+        }, 500);
+    };
+
     function formatFileSize(fileSizeBytes, decimalPlaces) {
         var mb = fileSizeBytes / (1024 * 1024);
         var formattedSize = mb.toFixed(decimalPlaces) + " MB";
         return formattedSize;
     }
 
-    const handleDeleteFile = () => {
-        setFile(null);
-        setData("photo", null);
+    const handleDeleteFile = (type) => {
+        if (type === "all") {
+            setFile(null);
+            setKrb(null);
+            setData("krb", null);
+            setData("photo", null);
+        } else if (type === "krb") {
+            setKrb(null);
+            setData("krb", null);
+        } else {
+            setFile(null);
+            setData("photo", null);
+        }
     };
 
     const submit = (e) => {
@@ -59,10 +80,11 @@ function DragDrop({ wilayah, item, id }) {
                 status: data.status,
                 deskripsi: data.deskripsi,
                 photo: data.photo,
+                krb: data.krb,
             },
             {
                 onSuccess: () => {
-                    handleDeleteFile();
+                    handleDeleteFile("all");
                     setProcessing(false);
                     document.getElementById(`my-modal-${id}`).checked = false;
                 },
@@ -262,14 +284,6 @@ function DragDrop({ wilayah, item, id }) {
                             multiple={false}
                         />
 
-                        <ClipLoader
-                            color="#1D267D"
-                            loading={loading}
-                            size={30}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-
                         <Collapse in={file != null}>
                             {file != null && (
                                 <div className="mt-2 shadow p-4 flex items-center gap-4 rounded-md">
@@ -296,7 +310,64 @@ function DragDrop({ wilayah, item, id }) {
                             <div className="flex flex-col items-end w-full">
                                 <button
                                     type="button"
-                                    onClick={handleDeleteFile}
+                                    onClick={() => handleDeleteFile("gambar")}
+                                    className="btn btn-sm bg-red-600 text-white border-none hover:bg-red-500 mt-2"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        </Collapse>
+
+                        <div className="flex gap-2 items-center">
+                            <InputLabel value="KRB" />
+                            <a target="_blank" href={`/storage/${item.krb}`}>
+                                <LaunchIcon fontSize="12" />
+                            </a>
+                        </div>
+
+                        <FileUploader
+                            handleChange={handleChangeKrb}
+                            name="file"
+                            types={fileTypes}
+                            label="Upload atau arahkan gambar mu disini"
+                            multiple={false}
+                        />
+
+                        <ClipLoader
+                            color="#1D267D"
+                            loading={loading}
+                            size={30}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+
+                        <Collapse in={krb != null}>
+                            {krb != null && (
+                                <div className="mt-2 shadow p-4 flex items-center gap-4 rounded-md">
+                                    <img
+                                        className="w-12 rounded-sm"
+                                        src={URL.createObjectURL(krb)}
+                                    />
+                                    <div className="flex justify-between w-full">
+                                        <div>
+                                            <h1 className="text-lg font-bold">
+                                                {krb.name}
+                                            </h1>
+                                            <p className="text-sm font-thin">
+                                                {krb.type}
+                                            </p>
+                                        </div>
+                                        <p className="text-blue-500 font-semibold">
+                                            {formatFileSize(krb.size, 2)}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex flex-col items-end w-full">
+                                <button
+                                    type="button"
+                                    onClick={() => handleDeleteFile("krb")}
                                     className="btn btn-sm bg-red-600 text-white border-none hover:bg-red-500 mt-2"
                                 >
                                     <DeleteIcon />

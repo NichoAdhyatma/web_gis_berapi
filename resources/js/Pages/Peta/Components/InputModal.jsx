@@ -18,10 +18,11 @@ export default function InputModal({ wilayah }) {
         ketinggian: "",
         deskripsi: "",
         photo: null,
+        krb: null,
     });
 
     const [file, setFile] = useState(null);
-    
+
     const [krb, setKrb] = useState(null);
 
     const [loading, setLoading] = useState(false);
@@ -49,6 +50,15 @@ export default function InputModal({ wilayah }) {
         }, 500);
     };
 
+    const handleChangeKrb = (file) => {
+        setLoading(true);
+        setTimeout(() => {
+            setKrb(file);
+            setData("krb", file);
+            setLoading(false);
+        }, 500);
+    };
+
     function formatFileSize(fileSizeBytes, decimalPlaces) {
         var mb = fileSizeBytes / (1024 * 1024);
         var formattedSize = mb.toFixed(decimalPlaces) + " MB";
@@ -57,6 +67,8 @@ export default function InputModal({ wilayah }) {
 
     const handleDeleteFile = () => {
         setFile(null);
+        setKrb(null);
+        setData("krb", null);
         setData("photo", null);
     };
 
@@ -238,14 +250,6 @@ export default function InputModal({ wilayah }) {
                             multiple={false}
                         />
 
-                        <ClipLoader
-                            color="#1D267D"
-                            loading={loading}
-                            size={30}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-
                         <Collapse in={file != null}>
                             {file != null && (
                                 <div className="mt-2 shadow p-4 flex items-center gap-4 rounded-md">
@@ -264,6 +268,58 @@ export default function InputModal({ wilayah }) {
                                         </div>
                                         <p className="text-blue-500 font-semibold">
                                             {formatFileSize(file.size, 2)}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex flex-col items-end w-full">
+                                <button
+                                    type="button"
+                                    onClick={handleDeleteFile}
+                                    className="btn btn-sm bg-red-600 text-white border-none hover:bg-red-500 mt-2"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        </Collapse>
+
+                        <InputLabel value="KRB" />
+
+                        <FileUploader
+                            handleChange={handleChangeKrb}
+                            name="file"
+                            types={fileTypes}
+                            label="Upload atau arahkan gambar mu disini"
+                            multiple={false}
+                        />
+
+                        <ClipLoader
+                            color="#1D267D"
+                            loading={loading}
+                            size={30}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+
+                        <Collapse in={krb != null}>
+                            {krb != null && (
+                                <div className="mt-2 shadow p-4 flex items-center gap-4 rounded-md">
+                                    <img
+                                        className="w-12 rounded-sm"
+                                        src={URL.createObjectURL(krb)}
+                                    />
+                                    <div className="flex justify-between w-full">
+                                        <div>
+                                            <h1 className="text-lg font-bold">
+                                                {krb.name}
+                                            </h1>
+                                            <p className="text-sm font-thin">
+                                                {krb.type}
+                                            </p>
+                                        </div>
+                                        <p className="text-blue-500 font-semibold">
+                                            {formatFileSize(krb.size, 2)}
                                         </p>
                                     </div>
                                 </div>

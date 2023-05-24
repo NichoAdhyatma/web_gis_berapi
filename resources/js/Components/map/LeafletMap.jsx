@@ -69,7 +69,7 @@ export default function LeafletMap({ gunung }) {
 
                                     <p>{item.deskripsi}</p>
                                     <div className="card-actions justify-end">
-                                        <a target="_blank" href={route('image', item.id)} className="btn btn-sm btn-primary text-white">
+                                        <a target="_blank" href={route('image', item.id)} className="link link-primary">
                                             Peta KRB
                                         </a>
                                     </div>

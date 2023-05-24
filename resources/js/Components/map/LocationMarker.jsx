@@ -2,6 +2,7 @@ import { Marker, Popup } from "react-leaflet";
 import { useSelector, useDispatch } from "react-redux";
 import { useMapEvent } from "react-leaflet";
 import { setPosition } from "@/Controllers/position";
+import { markerIcon } from "@/Marker/Marker";
 
 export default function LocationMarker() {
     const position = useSelector((state) => state.position.position);
@@ -15,7 +16,7 @@ export default function LocationMarker() {
     });
 
     return position === null ? null : (
-        <Marker position={position}>
+        <Marker position={position} icon={markerIcon}>
             <Popup>
                 <h2 className="card-title">Target Area</h2>
             </Popup>

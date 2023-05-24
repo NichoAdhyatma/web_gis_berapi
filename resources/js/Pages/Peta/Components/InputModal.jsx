@@ -21,6 +21,8 @@ export default function InputModal({ wilayah }) {
     });
 
     const [file, setFile] = useState(null);
+    
+    const [krb, setKrb] = useState(null);
 
     const [loading, setLoading] = useState(false);
 

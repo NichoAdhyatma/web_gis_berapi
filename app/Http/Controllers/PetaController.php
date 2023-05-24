@@ -51,16 +51,11 @@ class PetaController extends Controller
         return session()->flash("message", "Data Berhasil Ditambahkan !");
     }
 
-
-    public function show(string $id)
-    {
-        //
-    }
-
-
-    public function edit(string $id)
-    {
-        //
+    public function showImage($id) {
+        $image = Gunung::find($id);
+        return Inertia::render('Peta/ImagePreview', [
+            'image' => $image->krb 
+        ]);
     }
 
     public function update(Request $request, string $id)

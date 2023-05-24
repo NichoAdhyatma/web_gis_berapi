@@ -10,6 +10,7 @@ import { geoJSONJaTim } from "@/35";
 import { GeoJSON } from "react-leaflet";
 import { useMemo, useState } from "react";
 import DisplayPosition from "./Position";
+import { Link } from "@inertiajs/react";
 
 export default function LeafletMap({ gunung }) {
     var position = useSelector((state) => state.position.position);
@@ -44,32 +45,39 @@ export default function LeafletMap({ gunung }) {
                         icon={item.status ? volcano : mountain}
                     >
                         <Popup>
-                            <div class="card bg-base-100 shadow-xl">
+                            <div class="card bg-base-100">
                                 <div class="card-body">
                                     <h2 class="card-title">{item.name}</h2>
-                                    {item.status ? (
-                                        <div className="badge badge-success bg-yellow-200 p-4">
-                                            <p className="font-bold text-yellow-700">
-                                                Aktif
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="badge badge-success bg-green-200 p-4">
-                                            <p className="font-bold text-green-700">
-                                                Tidak Aktif
-                                            </p>
-                                        </div>
-                                    )}
-                                    <p className="truncate">{item.deskripsi}</p>
+                                    <h3 className="text-sm text-blue-600">{item.lokasi}</h3>
+                                    <img src={`storage/${item.photo}`} alt="foto-gunung" className="w-32 mx-auto my-4" />
+                                    <div className="flex gap-4 items-center">
+                                        {item.status ? (
+                                            <div className="badge badge-success bg-yellow-200 p-4">
+                                                <p className="font-bold text-yellow-700">
+                                                    Aktif
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="badge badge-success bg-green-200 p-4">
+                                                <p className="font-bold text-green-700">
+                                                    Tidak Aktif
+                                                </p>
+                                            </div>
+                                        )}
+                                        <div>Tinggi : {item.ketinggian} (mdpl)</div>
+                                    </div>
+
+                                    <p>{item.deskripsi}</p>
                                     <div className="card-actions justify-end">
-                                        <a className="link link-primary">
-                                            Lebih lanjut
+                                        <a target="_blank" href={route('image', item.id)} className="btn btn-sm btn-primary text-white">
+                                            Peta KRB
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </Popup>
                     </Marker>
+                    
                 ))}
                 <MyLocation />
             </MapContainer>

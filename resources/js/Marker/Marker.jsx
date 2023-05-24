@@ -6,9 +6,9 @@ const mountain = new L.Icon({
     iconSize: new L.Point(50, 50),
 });
 
-const home = new L.Icon({
-    iconUrl: 'https://img.icons8.com/?size=160&id=jJzviSBhm8Am&format=png',
-    iconRetinaUrl: 'https://img.icons8.com/?size=160&id=jJzviSBhm8Am&format=png',
+const markerIcon = new L.Icon({
+    iconUrl: '/marker.png',
+    iconRetinaUrl: '/marker.png',
     iconSize: new L.Point(50, 50),
 });
 
@@ -18,10 +18,10 @@ const volcano = new L.Icon({
     iconSize: new L.Point(50, 50),
 });
 
-const marker = new L.Icon({
-    iconUrl: '/location.gif',
-    iconRetinaUrl: '/location.gif',
+const home = new L.Icon({
+    iconUrl: '/home.png',
+    iconRetinaUrl: '/home.png',
     iconSize: new L.Point(60, 60),
 });
 
-export { mountain, home, volcano, marker };
+export { mountain, volcano, markerIcon, home };

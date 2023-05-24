@@ -26,6 +26,8 @@ Route::get('/', function () {
 
 Route::get("/seed", [PetaController::class, 'seeder'])->name('seeder');
 
+Route::get("/image-preview/{id}", [PetaController::class, 'showImage'])->name('image');
+
 Route::get('/peta-berapi', function () {
     $gunung = Gunung::all();
 

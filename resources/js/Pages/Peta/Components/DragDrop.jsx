@@ -8,7 +8,7 @@ import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import LaunchIcon from "@mui/icons-material/Launch";
 
-const fileTypes = ["JPG", "PNG", "GIF"];
+const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 function DragDrop({ wilayah, item, id }) {
     const [file, setFile] = useState(null);

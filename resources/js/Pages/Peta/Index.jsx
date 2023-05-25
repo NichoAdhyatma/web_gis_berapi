@@ -9,6 +9,7 @@ import InputModal from "./Components/InputModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect } from "react";
 import { Tooltip } from "@mui/material";
+import { useState } from "react";
 
 export default function Index({ gunung, wilayah }) {
     const { flash } = usePage().props;
@@ -16,6 +17,9 @@ export default function Index({ gunung, wilayah }) {
     const submit = (id) => {
         router.delete(route("peta.destroy", id));
     };
+
+    const [search, setSearch] = useState("");
+    const [count, setCount] = useState(30);
 
     useEffect(() => {
         flash.message &&
@@ -26,13 +30,30 @@ export default function Index({ gunung, wilayah }) {
             });
     }, [flash]);
 
-    console.log(gunung);
+    const handleOnChange = (e) => {
+        setCount(30)
+        setSearch(e.target.value)
+    }
+
+    const handleRowsCount = (e) => {
+        setCount(e.target.value)
+        console.log(e.target.value)
+    }
 
     return (
         <HomeLayout>
             <div className="mt-24 max-w-7xl mx-auto w-full px-4 py-2">
                 <div className="flex justify-between items-center">
-                    <h2 className="my-2 font-bold">Data Gunung Jawa Timur</h2>
+                    <div className="flex items-center gap-4">
+                        <input onChange={handleOnChange} type="text" placeholder="Cari Data Gunung Disini" className="input input-bordered w-full max-w-lg my-2" />
+                        <select class="select select-bordered w-40 max-w-lg" onChange={handleRowsCount }>
+                            <option disabled selected>Row Per Page</option>
+                            <option value={5} selected={count == 5}>5</option>
+                            <option value={10} selected={count == 10}>10</option>
+                            <option value={20} selected={count == 20}>20</option>
+                            <option value={30} selected={count == 30}>30</option>
+                        </select>
+                    </div>
                     <Tooltip title={"Tambah Data"}>
                         <label
                             htmlFor="my-modal-input"
@@ -57,8 +78,9 @@ export default function Index({ gunung, wilayah }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {gunung.data.map((item, index) => (
-                                <tr key={index}>
+                            {gunung.data.map((item, index) => {
+
+                                return item.name.toLowerCase().includes(search.toLowerCase()) && index + 1 <= count ? <tr key={index}>
                                     <th>{index + 1}</th>
                                     <td>
                                         <a
@@ -118,8 +140,8 @@ export default function Index({ gunung, wilayah }) {
                                         item={item}
                                         id={item.id}
                                     />
-                                </tr>
-                            ))}
+                                </tr> : null
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -127,15 +149,14 @@ export default function Index({ gunung, wilayah }) {
                     {gunung.links.map((link, index) => (
                         <Link key={index} href={link.url}>
                             <button
-                                className={`btn btn-sm bg-base-200 text-base-content hover:bg-base-100 border-none ${
-                                    link.active ? `bg-primary !text-white hover:bg-primary` : null
-                                }`}
+                                className={`btn btn-sm bg-base-200 text-base-content hover:bg-base-100 border-none ${link.active ? `bg-primary !text-white hover:bg-primary` : null
+                                    }`}
                             >
                                 {index == 0
                                     ? "<"
                                     : index == gunung.last_page + 1
-                                    ? ">"
-                                    : link.label}
+                                        ? ">"
+                                        : link.label}
                             </button>
                         </Link>
                     ))}

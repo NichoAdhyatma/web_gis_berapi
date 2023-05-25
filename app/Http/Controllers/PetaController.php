@@ -16,7 +16,7 @@ class PetaController extends Controller
     public function index()
     {
         return Inertia::render('Peta/Index', [
-            'gunung' => Gunung::paginate(10),
+            'gunung' => Gunung::paginate(30),
             'wilayah' => DB::table('wilayah-jatim')->get(),
         ]);
     }
@@ -63,7 +63,7 @@ class PetaController extends Controller
     public function showImage($id) {
         $image = Gunung::find($id);
         return Inertia::render('Peta/ImagePreview', [
-            'image' => $image->krb 
+            'image' => $image->krb
         ]);
     }
 

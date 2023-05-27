@@ -21,7 +21,8 @@ class PetaController extends Controller
         ]);
     }
 
-    public function seeder() {
+    public function seeder()
+    {
         Artisan::call('db:seed');
         return redirect()->route('peta.index')->with('message', "Database Seeder Called !");
     }
@@ -60,10 +61,11 @@ class PetaController extends Controller
         return session()->flash("message", "Data Berhasil Ditambahkan !");
     }
 
-    public function showImage($id) {
+    public function showImage($id)
+    {
         $image = Gunung::find($id);
         return Inertia::render('Peta/ImagePreview', [
-            'image' => $image->krb 
+            'image' => $image->krb
         ]);
     }
 
@@ -103,8 +105,6 @@ class PetaController extends Controller
             $validatedData['krb'] = $gunung->krb;
         }
 
-
-
         $gunung->update($validatedData);
 
         return session()->flash('message', 'Data Berhasil Diubah');
@@ -113,6 +113,16 @@ class PetaController extends Controller
 
     public function destroy(string $id)
     {
+        $gunung = Gunung::find($id);
+
+        if (!is_null($gunung->krb) && $gunung->krb != 'default.png') {
+            Storage::disk('public')->delete($gunung->krb);
+        }
+
+        if (!is_null($gunung->photo) && $gunung->photo != 'default.png') {
+            Storage::disk('public')->delete($gunung->photo);
+        }
+
         Gunung::destroy($id);
 
         return session()->flash('message', 'Data Berhasil Dihapus');

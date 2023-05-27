@@ -16,7 +16,7 @@ class PetaController extends Controller
     public function index()
     {
         return Inertia::render('Peta/Index', [
-            'gunung' => Gunung::paginate(10),
+            'gunung' => Gunung::paginate(30),
             'wilayah' => DB::table('wilayah-jatim')->get(),
         ]);
     }

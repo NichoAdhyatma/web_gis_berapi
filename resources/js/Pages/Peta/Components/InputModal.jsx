@@ -7,7 +7,7 @@ import { FileUploader } from "react-drag-drop-files";
 import ClipLoader from "react-spinners/ClipLoader";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const fileTypes = ["JPG", "PNG", "GIF"];
+const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 export default function InputModal({ wilayah }) {
     const { data, setData, post, processing, errors, reset } = useForm({

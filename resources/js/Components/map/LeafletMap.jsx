@@ -11,7 +11,6 @@ import { GeoJSON } from "react-leaflet";
 import { useMemo, useState } from "react";
 import DisplayPosition from "./Position";
 import { Tooltip } from "react-leaflet";
-import { Layers } from "@mui/icons-material";
 
 export default function LeafletMap({ gunung }) {
     var position = useSelector((state) => state.position.position);

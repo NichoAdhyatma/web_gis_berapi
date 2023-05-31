@@ -20,7 +20,7 @@ export default function Index({ gunung, wilayah }) {
 
     const [search, setSearch] = useState("");
     const [count, setCount] = useState(30);
-    const [data, setData] = useState({ id: '', data: '' });
+    const [data, setData] = useState({ id: "", data: "" });
 
     useEffect(() => {
         flash.message &&
@@ -44,13 +44,16 @@ export default function Index({ gunung, wilayah }) {
     return (
         <HomeLayout>
             <div className="mt-24 max-w-7xl mx-auto w-full px-4 py-2">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center my-2">
+                    <h1 className="text-xl font-bold">
+                        Data Gunung di Jawa Timur
+                    </h1>
                     <div className="flex items-center gap-4">
                         <input
                             onChange={handleOnChange}
                             type="text"
                             placeholder="Cari Data Gunung Disini"
-                            className="input input-bordered w-full max-w-lg my-2"
+                            className="input input-bordered w-full max-w-lg"
                         />
                         <select
                             className="select select-bordered w-40 max-w-lg"
@@ -73,15 +76,15 @@ export default function Index({ gunung, wilayah }) {
                                 30
                             </option>
                         </select>
+                        <Tooltip title={"Tambah Data"}>
+                            <label
+                                htmlFor="my-modal-input"
+                                className="btn btn-sm btn-primary text-white"
+                            >
+                                <AddIcon />
+                            </label>
+                        </Tooltip>
                     </div>
-                    <Tooltip title={"Tambah Data"}>
-                        <label
-                            htmlFor="my-modal-input"
-                            className="btn btn-sm btn-primary text-white"
-                        >
-                            <AddIcon />
-                        </label>
-                    </Tooltip>
                 </div>
 
                 <div className="overflow-x-auto">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Gunung;
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/peta', PetaController::class);
+    Route::resource('/laporan', LaporanController::class); 
 });
 
 require __DIR__ . '/auth.php';

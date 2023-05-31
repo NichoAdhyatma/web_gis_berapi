@@ -26,9 +26,14 @@ export default function Navbar() {
                     </Link>
 
                     {auth.user && (
+                        <>
                         <Link href={route("peta.index")} className="px-4">
                             Data
                         </Link>
+                        <Link href={route("laporan.index")} className="px-4">
+                            Laporan
+                        </Link>
+                        </>
                     )}
                 </div>
 
